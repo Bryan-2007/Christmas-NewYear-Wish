@@ -69,11 +69,7 @@
 <div class="signature">~ From Wistan &amp; Family ❤️</div>
 
 <audio id="bgMusic" loop>
-    <source src="Piranthar Piranthar.mp3" type="audio/mpeg">
-</audio>
-
-<audio id="bellSound">
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5fcb9a0d5e.mp3" type="audio/mpeg">
+    <source src="./Piranthar Piranthar.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -162,11 +158,6 @@
     document.body.addEventListener('click', (e) => {
         document.getElementById('bgMusic').volume = 0.25;
         document.getElementById('bgMusic').play();
-
-        const bell = document.getElementById('bellSound');
-        bell.currentTime = 0;
-        bell.volume = 0.4;
-        bell.play();
 
         createFirework(e.clientX, e.clientY);
     });
