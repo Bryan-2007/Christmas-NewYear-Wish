@@ -1,111 +1,81 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Merry Christmas 🎄</title>
-<style>
-    * {
-        box-sizing: border-box;
-        -webkit-tap-highlight-color: transparent;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merry Christmas 🎄</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: #000000;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-family: 'Georgia', serif;
+        }
 
-```
-body {
-    margin: 0;
-    height: 100dvh;
-    background: #000000;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    font-family: 'Georgia', serif;
-    touch-action: manipulation;
-}
+        .top-text {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 1.5rem;
+            color: #ffffff;
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 10;
+        }
 
-.top-text {
-    position: fixed;
-    top: env(safe-area-inset-top, 16px);
-    width: 100%;
-    text-align: center;
-    font-size: clamp(1rem, 4vw, 1.4rem);
-    color: #ffffff;
-    font-weight: bold;
-    z-index: 10;
-    pointer-events: none;
-}
+        .message {
+            font-size: 2.6rem;
+            text-align: center;
+            z-index: 10;
+            max-width: 90%;
+            background: linear-gradient(90deg, #ffff00, #ffea00, #fff8dc, #ffea00, #ffff00);
+            background-size: 300% 300%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s infinite linear;
+            text-shadow: 0 0 24px rgba(255, 255, 0, 1);
+            pointer-events: none;
+        }
 
-.message {
-    font-size: clamp(1.4rem, 6vw, 2.4rem);
-    text-align: center;
-    z-index: 10;
-    padding: 0 1rem;
-    max-width: 95%;
-    background: linear-gradient(90deg, #ffff00, #ffea00, #fff8dc, #ffea00, #ffff00);
-    background-size: 300% 300%;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 3s infinite linear;
-    text-shadow: 0 0 18px rgba(255, 255, 0, 0.9);
-    pointer-events: none;
-}
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
 
-.signature {
-    position: fixed;
-    bottom: calc(env(safe-area-inset-bottom, 20px) + 30px);
-    font-size: clamp(1.2rem, 5vw, 2rem);
-    background: linear-gradient(90deg, #ffff00, #fff8dc, #ffea00);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 4s infinite linear;
-    text-shadow: 0 0 16px rgba(255, 255, 0, 0.9);
-    z-index: 10;
-    pointer-events: none;
-    text-align: center;
-    width: 100%;
-}
+        .signature {
+            position: absolute;
+            bottom: 60px;
+            font-size: 2.2rem; /* increased size */
+            background: linear-gradient(90deg, #ffff00, #fff8dc, #ffea00);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 4s infinite linear;
+            text-shadow: 0 0 18px rgba(255, 255, 0, 1);
+            z-index: 10;
+            pointer-events: none;
+        }
 
-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-@keyframes shimmer {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
-}
-
-#tapOverlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.8);
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: clamp(1.2rem, 5vw, 2rem);
-    z-index: 100;
-    text-align: center;
-    flex-direction: column;
-    padding: 1rem;
-}
-```
-
-</style>
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
 </head>
 <body>
 
-<canvas id="fireworks"></canvas> <canvas id="snow"></canvas>
+<canvas id="fireworks"></canvas>
+<canvas id="snow"></canvas>
 
 <div class="top-text">Tap on screen...</div>
-
 <div class="message">
     Merry Christmas To You And Your Family 🎄<br>
     May This Christmas Bring You Everlasting Joy and Peace!
@@ -113,118 +83,106 @@ canvas {
 
 <div class="signature">~ From Wistan &amp; Family ❤️</div>
 
-<div id="tapOverlay">
-    Tap Anywhere To Start Music & Fireworks 🎶
-</div>
-
-<audio id="bgMusic" loop preload="auto" playsinline>
+<audio id="bgMusic" loop>
     <source src="assets/piranthar-piranthar.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-const fwCanvas = document.getElementById('fireworks');
-const fwCtx = fwCanvas.getContext('2d');
-const snowCanvas = document.getElementById('snow');
-const snowCtx = snowCanvas.getContext('2d');
+    const fwCanvas = document.getElementById('fireworks');
+    const fwCtx = fwCanvas.getContext('2d');
+    const snowCanvas = document.getElementById('snow');
+    const snowCtx = snowCanvas.getContext('2d');
 
-function resize() {
-    const dpr = window.devicePixelRatio || 1;
-    fwCanvas.width = snowCanvas.width = window.innerWidth * dpr;
-    fwCanvas.height = snowCanvas.height = window.innerHeight * dpr;
-    fwCanvas.style.width = snowCanvas.style.width = '100%';
-    fwCanvas.style.height = snowCanvas.style.height = '100%';
-    fwCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    snowCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-}
-resize();
-
-const colors = ['#ff0043', '#14fc56', '#1e90ff', '#ffd700', '#ff7f00', '#8a2be2'];
-
-class Particle {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.radius = Math.random() * 2.5 + 1;
-        this.color = colors[Math.floor(Math.random() * colors.length)];
-        this.vx = (Math.random() - 0.5) * 5;
-        this.vy = (Math.random() - 0.5) * 5;
-        this.life = 80;
+    function resize() {
+        fwCanvas.width = snowCanvas.width = window.innerWidth;
+        fwCanvas.height = snowCanvas.height = window.innerHeight;
     }
-    update() {
-        this.x += this.vx;
-        this.y += this.vy;
-        this.life--;
-    }
-    draw() {
-        fwCtx.beginPath();
-        fwCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        fwCtx.fillStyle = this.color;
-        fwCtx.fill();
-    }
-}
+    resize();
 
-let particles = [];
-function createFirework(x, y) {
-    for (let i = 0; i < 55; i++) particles.push(new Particle(x, y));
-}
+    const colors = ['#ff0043', '#14fc56', '#1e90ff', '#ffd700', '#ff7f00', '#8a2be2'];
 
-let snowflakes = Array.from({ length: 120 }, () => ({
-    x: Math.random() * window.innerWidth,
-    y: Math.random() * window.innerHeight,
-    r: Math.random() * 2.5 + 1,
-    d: Math.random() * 1 + 0.4
-}));
-
-function drawSnow() {
-    snowCtx.clearRect(0, 0, snowCanvas.width, snowCanvas.height);
-    snowCtx.fillStyle = 'white';
-    snowCtx.beginPath();
-    snowflakes.forEach(f => {
-        snowCtx.moveTo(f.x, f.y);
-        snowCtx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-    });
-    snowCtx.fill();
-
-    snowflakes.forEach(f => {
-        f.y += f.d;
-        if (f.y > window.innerHeight) {
-            f.y = 0;
-            f.x = Math.random() * window.innerWidth;
+    class Particle {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            this.radius = Math.random() * 3 + 1;
+            this.color = colors[Math.floor(Math.random() * colors.length)];
+            this.vx = (Math.random() - 0.5) * 6;
+            this.vy = (Math.random() - 0.5) * 6;
+            this.life = 100;
         }
-    });
-}
-
-function animate() {
-    fwCtx.fillStyle = 'rgba(0,0,0,0.2)';
-    fwCtx.fillRect(0, 0, fwCanvas.width, fwCanvas.height);
-
-    particles = particles.filter(p => p.life > 0);
-    particles.forEach(p => { p.update(); p.draw(); });
-
-    drawSnow();
-    requestAnimationFrame(animate);
-}
-animate();
-
-window.addEventListener('resize', resize);
-
-const music = document.getElementById('bgMusic');
-const tapOverlay = document.getElementById('tapOverlay');
-let musicStarted = false;
-
-tapOverlay.addEventListener('pointerdown', e => {
-    if (!musicStarted) {
-        music.volume = 0.3;
-        music.play().catch(() => {});
-        musicStarted = true;
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            this.life--;
+        }
+        draw() {
+            fwCtx.beginPath();
+            fwCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            fwCtx.fillStyle = this.color;
+            fwCtx.fill();
+        }
     }
-    createFirework(e.clientX, e.clientY);
-    tapOverlay.style.display = 'none';
-});
 
-document.addEventListener('pointerdown', e => {
-    if (musicStarted) createFirework(e.clientX, e.clientY);
-});
+    let particles = [];
+
+    function createFirework(x, y) {
+        for (let i = 0; i < 70; i++) {
+            particles.push(new Particle(x, y));
+        }
+    }
+
+    const snowflakes = Array.from({ length: 150 }, () => ({
+        x: Math.random() * snowCanvas.width,
+        y: Math.random() * snowCanvas.height,
+        r: Math.random() * 3 + 1,
+        d: Math.random() * 1 + 0.5
+    }));
+
+    function drawSnow() {
+        snowCtx.clearRect(0, 0, snowCanvas.width, snowCanvas.height);
+        snowCtx.fillStyle = 'white';
+        snowCtx.beginPath();
+        snowflakes.forEach(f => {
+            snowCtx.moveTo(f.x, f.y);
+            snowCtx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+        });
+        snowCtx.fill();
+
+        snowflakes.forEach(f => {
+            f.y += f.d;
+            if (f.y > snowCanvas.height) {
+                f.y = 0;
+                f.x = Math.random() * snowCanvas.width;
+            }
+        });
+    }
+
+    function animate() {
+        fwCtx.fillStyle = 'rgba(0,0,0,0.15)';
+        fwCtx.fillRect(0, 0, fwCanvas.width, fwCanvas.height);
+
+        particles = particles.filter(p => p.life > 0);
+        particles.forEach(p => { p.update(); p.draw(); });
+
+        drawSnow();
+        requestAnimationFrame(animate);
+    }
+
+    let musicStarted = false;
+
+    document.body.addEventListener('click', (e) => {
+        const music = document.getElementById('bgMusic');
+        if (!musicStarted) {
+            music.volume = 0.85;
+            music.play();
+            musicStarted = true;
+        }
+        createFirework(e.clientX, e.clientY);
+    });
+
+    animate();
+    window.addEventListener('resize', resize);
 </script>
 
 </body>
