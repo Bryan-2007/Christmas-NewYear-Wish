@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merry Christmas 🎄</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: black;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-family: 'Georgia', serif;
+        }
+
+        .message {
+            font-size: 2.4rem;
+            text-align: center;
+            z-index: 10;
+            max-width: 90%;
+            background: linear-gradient(90deg, #b8860b, #ffd700, #fff8dc, #ffd700, #b8860b);
+            background-size: 300% 300%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s infinite linear;
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .signature {
+            position: absolute;
+            bottom: 60px; /* moved slightly up from bottom */
+            font-size: 1.2rem;
+            background: linear-gradient(90deg, #ffd700, #fff8dc, #ffd700);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 4s infinite linear;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+            z-index: 10;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="fireworks"></canvas>
+<canvas id="snow"></canvas>
+
+<div class="message">
+    Merry Christmas To You And Your Family 🎄<br>
+    May This Christmas Bring You Everlasting Joy and Peace!
+</div>
+
+<div class="signature">~ From Wistan &amp; Family ❤️</div>
+
+<audio id="bgMusic" loop>
+    <source src="https://audio.com/bryan-work/audio/piranthar-piranthar-1" type="audio/mpeg">
+</audio>
+
+<audio id="bellSound">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5fcb9a0d5e.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    const fwCanvas = document.getElementById('fireworks');
+    const fwCtx = fwCanvas.getContext('2d');
+    const snowCanvas = document.getElementById('snow');
+    const snowCtx = snowCanvas.getContext('2d');
+
+    function resize() {
+        fwCanvas.width = snowCanvas.width = window.innerWidth;
+        fwCanvas.height = snowCanvas.height = window.innerHeight;
+    }
+    resize();
+
+    const colors = ['#ff0043', '#14fc56', '#1e90ff', '#ffd700', '#ff7f00', '#8a2be2'];
+
+    class Particle {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            this.radius = Math.random() * 3 + 1;
+            this.color = colors[Math.floor(Math.random() * colors.length)];
+            this.vx = (Math.random() - 0.5) * 6;
+            this.vy = (Math.random() - 0.5) * 6;
+            this.life = 100;
+        }
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            this.life--;
+        }
+        draw() {
+            fwCtx.beginPath();
+            fwCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            fwCtx.fillStyle = this.color;
+            fwCtx.fill();
+        }
+    }
+
+    let particles = [];
+
+    function createFirework(x, y) {
+        for (let i = 0; i < 70; i++) {
+            particles.push(new Particle(x, y));
+        }
+    }
+
+    // Snowflakes
+    const snowflakes = Array.from({ length: 150 }, () => ({
+        x: Math.random() * snowCanvas.width,
+        y: Math.random() * snowCanvas.height,
+        r: Math.random() * 3 + 1,
+        d: Math.random() * 1 + 0.5
+    }));
+
+    function drawSnow() {
+        snowCtx.clearRect(0, 0, snowCanvas.width, snowCanvas.height);
+        snowCtx.fillStyle = 'white';
+        snowCtx.beginPath();
+        snowflakes.forEach(f => {
+            snowCtx.moveTo(f.x, f.y);
+            snowCtx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+        });
+        snowCtx.fill();
+
+        snowflakes.forEach(f => {
+            f.y += f.d;
+            if (f.y > snowCanvas.height) {
+                f.y = 0;
+                f.x = Math.random() * snowCanvas.width;
+            }
+        });
+    }
+
+    function animate() {
+        fwCtx.fillStyle = 'rgba(0,0,0,0.2)';
+        fwCtx.fillRect(0, 0, fwCanvas.width, fwCanvas.height);
+
+        particles = particles.filter(p => p.life > 0);
+        particles.forEach(p => { p.update(); p.draw(); });
+
+        drawSnow();
+        requestAnimationFrame(animate);
+    }
+
+    document.body.addEventListener('click', (e) => {
+        document.getElementById('bgMusic').volume = 0.25;
+        document.getElementById('bgMusic').play();
+
+        const bell = document.getElementById('bellSound');
+        bell.currentTime = 0;
+        bell.volume = 0.4;
+        bell.play();
+
+        createFirework(e.clientX, e.clientY);
+    });
+
+    animate();
+    window.addEventListener('resize', resize);
+</script>
+
+</body>
+</html>
