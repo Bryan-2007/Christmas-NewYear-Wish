@@ -29,6 +29,7 @@
             -webkit-text-fill-color: transparent;
             animation: shimmer 3s infinite linear;
             text-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+            pointer-events: none;
         }
 
         @keyframes shimmer {
@@ -38,7 +39,7 @@
 
         .signature {
             position: absolute;
-            bottom: 60px; /* moved slightly up from bottom */
+            bottom: 60px;
             font-size: 1.2rem;
             background: linear-gradient(90deg, #ffd700, #fff8dc, #ffd700);
             background-clip: text;
@@ -47,6 +48,7 @@
             animation: shimmer 4s infinite linear;
             text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
             z-index: 10;
+            pointer-events: none;
         }
 
         canvas {
@@ -117,7 +119,6 @@
         }
     }
 
-    // Snowflakes
     const snowflakes = Array.from({ length: 150 }, () => ({
         x: Math.random() * snowCanvas.width,
         y: Math.random() * snowCanvas.height,
@@ -155,10 +156,15 @@
         requestAnimationFrame(animate);
     }
 
-    document.body.addEventListener('click', (e) => {
-        document.getElementById('bgMusic').volume = 0.25;
-        document.getElementById('bgMusic').play();
+    let musicStarted = false;
 
+    document.body.addEventListener('click', (e) => {
+        const music = document.getElementById('bgMusic');
+        if (!musicStarted) {
+            music.volume = 0.25;
+            music.play();
+            musicStarted = true;
+        }
         createFirework(e.clientX, e.clientY);
     });
 
