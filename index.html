@@ -4,111 +4,110 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Merry Christmas 🎄</title>
-
 <style>
-body {
-    margin: 0;
-    height: 100vh;
-    background: #000;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    font-family: 'Georgia', serif;
-}
+    body {
+        margin: 0;
+        height: 100vh;
+        background: #000000;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        font-family: 'Georgia', serif;
+    }
 
-.top-text {
-    position: absolute;
-    top: 20px;
-    width: 100%;
-    text-align: center;
-    font-size: 1.5rem;
-    color: #fff;
-    font-weight: bold;
-    z-index: 10;
-    pointer-events: none;
-}
+    .top-text {
+        position: absolute;
+        top: 20px;
+        width: 100%;
+        text-align: center;
+        font-size: 1.5rem;
+        color: #ffffff;
+        font-weight: bold;
+        pointer-events: none;
+        z-index: 10;
+    }
 
-.message {
-    font-size: 2.6rem;
-    text-align: center;
-    z-index: 10;
-    max-width: 90%;
-    background: linear-gradient(90deg, #ffff00, #ffea00, #fff8dc, #ffea00, #ffff00);
-    background-size: 300% 300%;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 3s infinite linear;
-    text-shadow: 0 0 24px rgba(255,255,0,1);
-    pointer-events: none;
-}
+    .message {
+        font-size: 2.6rem;
+        text-align: center;
+        z-index: 10;
+        max-width: 90%;
+        background: linear-gradient(90deg, #ffff00, #ffea00, #fff8dc, #ffea00, #ffff00);
+        background-size: 300% 300%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shimmer 3s infinite linear;
+        text-shadow: 0 0 24px rgba(255, 255, 0, 1);
+        pointer-events: none;
+    }
 
-@keyframes shimmer {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
-}
+    @keyframes shimmer {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
+    }
 
-.signature {
-    position: absolute;
-    bottom: 60px;
-    font-size: 2.2rem;
-    background: linear-gradient(90deg, #ffff00, #fff8dc, #ffea00);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 4s infinite linear;
-    text-shadow: 0 0 18px rgba(255,255,0,1);
-    z-index: 10;
-    pointer-events: none;
-}
+    .signature {
+        position: absolute;
+        bottom: 60px;
+        font-size: 2.2rem;
+        background: linear-gradient(90deg, #ffff00, #fff8dc, #ffea00);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shimmer 4s infinite linear;
+        text-shadow: 0 0 18px rgba(255, 255, 0, 1);
+        z-index: 10;
+        pointer-events: none;
+    }
 
-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
+    canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 
-/* Tap overlay */
-#tapOverlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    z-index: 100;
-    cursor: pointer;
-    text-align: center;
-    flex-direction: column;
-}
+    /* Tap overlay */
+    #tapOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+        z-index: 100;
+        cursor: pointer;
+        text-align: center;
+        flex-direction: column;
+    }
 </style>
 </head>
-
 <body>
 
 <canvas id="fireworks"></canvas>
 <canvas id="snow"></canvas>
 
 <div class="top-text">Tap on screen...</div>
-
 <div class="message">
-Merry Christmas To You And Your Family 🎄<br>
-May This Christmas Bring You Everlasting Joy and Peace!
+    Merry Christmas To You And Your Family 🎄<br>
+    May This Christmas Bring You Everlasting Joy and Peace!
 </div>
-
 <div class="signature">~ From Wistan &amp; Family ❤️</div>
 
+<!-- Tap overlay -->
 <div id="tapOverlay">
-Tap Anywhere To Start Music & Fireworks 🎶
+    Tap Anywhere To Start Music & Fireworks 🎶
 </div>
-<!-- ipo try panni paaru  -->
-<!-- idhula ordinary person eduthutu unoda audio podu da bryan.... -->
+
 <audio id="bgMusic" loop preload="auto">
-  <source src="SpotifyMate.com - Ordinary Person (From _Leo_) - Anirudh Ravichander.mp3" type="audio/mpeg">
+    <source src="assets/piranthar-piranthar.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -122,7 +121,6 @@ function resize() {
     fwCanvas.height = snowCanvas.height = window.innerHeight;
 }
 resize();
-window.addEventListener('resize', resize);
 
 const colors = ['#ff0043', '#14fc56', '#1e90ff', '#ffd700', '#ff7f00', '#8a2be2'];
 
@@ -157,8 +155,8 @@ function createFirework(x, y) {
 }
 
 const snowflakes = Array.from({ length: 150 }, () => ({
-    x: Math.random() * window.innerWidth,
-    y: Math.random() * window.innerHeight,
+    x: Math.random() * snowCanvas.width,
+    y: Math.random() * snowCanvas.height,
     r: Math.random() * 3 + 1,
     d: Math.random() * 1 + 0.5
 }));
@@ -167,7 +165,6 @@ function drawSnow() {
     snowCtx.clearRect(0, 0, snowCanvas.width, snowCanvas.height);
     snowCtx.fillStyle = 'white';
     snowCtx.beginPath();
-
     snowflakes.forEach(f => {
         snowCtx.moveTo(f.x, f.y);
         snowCtx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
@@ -193,25 +190,31 @@ function animate() {
     drawSnow();
     requestAnimationFrame(animate);
 }
-animate();
 
-/* 🎵 MUSIC + FIREWORK TRIGGER */
+animate();
+window.addEventListener('resize', resize);
+
+// --- Music and click handling ---
 const music = document.getElementById('bgMusic');
 const tapOverlay = document.getElementById('tapOverlay');
-let started = false;
+let musicStarted = false;
 
-tapOverlay.addEventListener('pointerdown', e => {
-    if (!started) {
+// Handle first tap via overlay
+tapOverlay.addEventListener('pointerdown', (e) => {
+    if (!musicStarted) {
         music.volume = 0.25;
-        music.play().catch(err => console.error(err));
-        started = true;
+        music.play().catch(err => console.error("Music blocked:", err));
+        musicStarted = true;
     }
     createFirework(e.clientX, e.clientY);
     tapOverlay.style.display = 'none';
 });
 
-document.addEventListener('pointerdown', e => {
-    if (started) createFirework(e.clientX, e.clientY);
+// After overlay disappears, spawn fireworks on every click/tap anywhere
+document.addEventListener('pointerdown', (e) => {
+    if (musicStarted) {
+        createFirework(e.clientX, e.clientY);
+    }
 });
 </script>
 
